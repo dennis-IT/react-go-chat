@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { createMuiTheme, ThemeProvider, Paper } from '@material-ui/core';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import './App.css';
+import Join from './components/Join';
+import Chat from './components/Chat';
+
+const App = () => {
+    const theme = createMuiTheme({
+        typography: {
+            fontFamily: [
+                '"Roboto Condensed"',
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'Roboto',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+            ].join(',')
+        }
+    });
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Paper style={{ minHeight: '100vh' }}>
+                <BrowserRouter>
+                    <Route path='/' exact component={Join}></Route>
+                    <Route path='/chat' component={Chat}></Route>
+                </BrowserRouter>
+            </Paper>
+        </ThemeProvider>
+    );
+};
 
 export default App;
