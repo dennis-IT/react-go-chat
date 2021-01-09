@@ -12,8 +12,18 @@ const io = socketio(server);
 
 //From socket.io document
 //For connection
-io.on('connetion', (socket) => {
-    console.log('We have a new connection');
+io.on('connection', (socket) => {
+    //console.log('We have a new connection');
+
+    socket.on('join', ({ name, room }, callback) => {
+        console.log(name, room);
+
+        //!TODO: we can use callback to handle error
+        // const error = true;
+        // if (error) {
+        //     callback({ error: 'error' });
+        // }
+    });
 
     socket.on('disconnect', () => {
         console.log('User has left');
