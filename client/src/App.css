@@ -18,3 +18,17 @@
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
+
+  /* Disable scroll bar while still allowing scroll */
+html {
+  overflow-x: scroll;
+  overflow-y: scroll;
+
+  scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+html::-webkit-scrollbar {
+  width: 0 !important;  /* Remove scrollbar space */
+  
+}
