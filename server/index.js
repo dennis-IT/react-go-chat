@@ -2,6 +2,8 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
+const { addUser, removeUser, getUser, getUserInRoom } = require('./users');
+
 const PORT = process.env.PORT || 5000;
 
 const router = require('./router');
@@ -13,16 +15,39 @@ const io = socketio(server);
 //From socket.io document
 //For connection
 io.on('connection', (socket) => {
-    //console.log('We have a new connection');
-
     socket.on('join', ({ name, room }, callback) => {
-        console.log(name, room);
-
         //!TODO: we can use callback to handle error
         // const error = true;
         // if (error) {
         //     callback({ error: 'error' });
         // }
+
+        //Start to add new user to the chat room
+        const res = addUser({ id: socket.id, name, room });
+
+        if (res.error) {
+            return callback(res.error);
+        }
+
+        //if no error, join socket to a specific room
+        socket.join(res.room);
+
+        //System message when someone joins Name of emit action + Payload data
+        //Emit is to emit an event from the backend to the front end
+        socket.broadcast.to(res.room).emit('message', { user: 'admin', text: `${res.name} has joined!` });
+        socket.emit('message', { user: 'admin', text: `Hello ${res.name}, welcome to the room ${res.room}` });
+
+        //Callback null
+        callback();
+    });
+
+    //On is expect the event on the backend -> waiting on sendMessage 
+    //socket.emit - This method is responsible for sending messages. socket.on - This method is responsible for listening for incoming messages.
+    //callback is run after the event sendMessage is emitted
+    socket.on('sendMessage', (message, callback) => {
+        const user = getUser(socket.id);
+        io.to(user.room).emit('message', { user: user.name, text: message }); //waiting the message from the front end
+        callback();
     });
 
     socket.on('disconnect', () => {

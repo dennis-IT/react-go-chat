@@ -13,11 +13,16 @@ const Join = () => {
             alignItems: 'center',
             // overflow: 'hidden'
         },
+        backGround: {
+            border: 'solid 1px ivory',
+            borderRadius: '5px',
+            backgroundColor: 'rgba(0,0,0,0.2)'
+        },
         header: {
             marginBottom: '1rem'
         },
         inputField: {
-            minWidth: '300px'
+            //minWidth: '300px'
         }
     }
     ));
@@ -26,73 +31,80 @@ const Join = () => {
     const history = useHistory();
 
     const handleSubmit = (values, actions) => {
+        actions.setSubmitting(true);
         history.push(`/chat?name=${values.name}&room=${values.room}`);
+        actions.setSubmitting(false);
     };
 
     return (
         <div>
             <Container maxWidth='sm' className={classes.root}>
-                <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                    <Typography variant='h3' color='primary' className={classes.header}>Join Chat Room</Typography>
-                    <Formik
-                        initialValues={{
-                            name: '',
-                            room: ''
-                        }}
-                        validate={(values) => {
-                            const errors = {};
-                            if (!values.name) {
-                                errors.name = 'Required';
-                            }
-                            if (!values.room) {
-                                errors.room = 'Required';
-                            }
-                            return errors;
-                        }}
-                        onSubmit={handleSubmit}
-                    >
-                        {
-                            ({ submitForm, isSubmitting, touched, errors }) => (
-                                <Form>
-                                    <Box mb={3}>
-                                        <Field
-                                            component={TextField}
-                                            variant='outlined'
-                                            color='primary'
-                                            name='name'
-                                            type='text'
-                                            label='Name'
-                                            fullWidth
-                                            className={classes.inputField}
-                                        />
-                                    </Box>
-                                    <Box mb={3}>
-                                        <Field
-                                            component={TextField}
-                                            variant='outlined'
-                                            color='primary'
-                                            name='room'
-                                            type='text'
-                                            label='Room'
-                                            fullWidth
-                                            className={classes.inputField}
-                                        />
-                                    </Box>
-                                    <Box>
-                                        <Button
-                                            variant='contained'
-                                            color='primary'
-                                            disabled={isSubmitting}
-                                            onClick={submitForm}
-                                            disableElevation
-                                        >
-                                            Sign In
+                <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' p={3} className={classes.backGround}>
+                    <div style={{ textAlign: 'center' }}>
+                        <Typography variant='h3' color='secondary' className={classes.header}>Welcome to GoChat</Typography>
+                    </div>
+
+                    <div style={{ width: '100%' }}>
+                        <Formik
+                            initialValues={{
+                                name: '',
+                                room: ''
+                            }}
+                            validate={(values) => {
+                                const errors = {};
+                                if (!values.name) {
+                                    errors.name = 'Required';
+                                }
+                                if (!values.room) {
+                                    errors.room = 'Required';
+                                }
+                                return errors;
+                            }}
+                            onSubmit={handleSubmit}
+                        >
+                            {
+                                ({ submitForm, isSubmitting, touched, errors }) => (
+                                    <Form>
+                                        <Box mb={3}>
+                                            <Field
+                                                component={TextField}
+                                                variant='outlined'
+                                                color='secondary'
+                                                name='name'
+                                                type='text'
+                                                label='Name'
+                                                className={classes.inputField}
+                                                fullWidth
+                                            />
+                                        </Box>
+                                        <Box mb={3}>
+                                            <Field
+                                                component={TextField}
+                                                variant='outlined'
+                                                color='secondary'
+                                                name='room'
+                                                type='text'
+                                                label='Room'
+                                                className={classes.inputField}
+                                                fullWidth
+                                            />
+                                        </Box>
+                                        <Box>
+                                            <Button
+                                                type='submit'
+                                                variant='contained'
+                                                color='secondary'
+                                                onClick={submitForm}
+                                                disableElevation
+                                            >
+                                                Sign In
                                         </Button>
-                                    </Box>
-                                </Form>
-                            )
-                        }
-                    </Formik>
+                                        </Box>
+                                    </Form>
+                                )
+                            }
+                        </Formik>
+                    </div>
                 </Box>
             </Container>
         </div>

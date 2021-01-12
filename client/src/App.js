@@ -22,12 +22,15 @@ const App = () => {
                 '"Segoe UI Emoji"',
                 '"Segoe UI Symbol"',
             ].join(',')
+        },
+        palette: {
+            type: 'dark'
         }
     });
 
     return (
         <ThemeProvider theme={theme}>
-            <Paper style={{ minHeight: '100vh' }}>
+            <Paper style={{ minHeight: '100vh' }} square>
                 <BrowserRouter>
                     <Route path='/' exact component={Join}></Route>
                     <Route path='/chat' component={Chat}></Route>
