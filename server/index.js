@@ -34,8 +34,10 @@ io.on('connection', (socket) => {
 
         //System message when someone joins Name of emit action + Payload data
         //Emit is to emit an event from the backend to the front end
-        socket.broadcast.to(res.room).emit('message', { user: 'admin', text: `${res.name} has joined!` });
-        socket.emit('message', { user: 'admin', text: `Hello ${res.name}, welcome to the room ${res.room}` });
+        socket.broadcast.to(res.room).emit('message', { user: 'admin', text: `** ${res.name} has joined. **` });
+        socket.emit('message', { user: 'admin', text: `** Hello ${res.name}, welcome to GoChat! **` });
+
+        io.to(res.room).emit('roomData', { room: res.room, users: getUserInRoom(res.room) });
 
         //Callback null
         callback();
@@ -46,12 +48,17 @@ io.on('connection', (socket) => {
     //callback is run after the event sendMessage is emitted
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
-        io.to(user.room).emit('message', { user: user.name, text: message }); //waiting the message from the front end
+        io.to(user.room).emit('message', { user: user.name, text: message }); //emit message to front end
+        io.to(user.room).emit('roomData', { room: user.room, users: getUserInRoom(user.room) });
         callback();
     });
 
     socket.on('disconnect', () => {
-        console.log('User has left');
+        const user = removeUser(socket.id);
+        if (user) {
+            io.to(user.room).emit('message', { user: 'admin', text: `** ${user.name} has left. **` });
+            io.to(user.room).emit('roomData', { room: user.room, users: getUserInRoom(user.room) });
+        }
     });
 });
 

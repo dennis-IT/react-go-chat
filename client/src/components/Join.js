@@ -15,7 +15,7 @@ const Join = () => {
         },
         backGround: {
             border: 'solid 1px ivory',
-            borderRadius: '5px',
+            //borderRadius: '5px',
             backgroundColor: 'rgba(0,0,0,0.2)'
         },
         header: {
@@ -96,6 +96,7 @@ const Join = () => {
                                                 color='secondary'
                                                 onClick={submitForm}
                                                 disableElevation
+                                                style={{ borderRadius: 0 }}
                                             >
                                                 Sign In
                                         </Button>
