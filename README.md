@@ -1,4 +1,4 @@
-#Project Description
+# Project Description
 An online real-time chat application, which was built with React (Client), NodeJS (Server), Material UI and the support of Socket.io. 
 The site allows users to join and connect with others in a private chatroom.
 
