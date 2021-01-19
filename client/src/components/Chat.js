@@ -9,7 +9,7 @@ import Input from './Input';
 import Messages from './Messages';
 import RoomInfo from './RoomInfo';
 
-const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = 'https://react-go-chat.herokuapp.com/';
 let socket;
 
 const Chat = (props) => {
